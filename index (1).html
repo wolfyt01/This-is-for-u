@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>A Special Message For You</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <style>
+/* styles.css - extracted from original inline styles */
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fce4ec; /* Light pink background */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Bubbles */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 5%, transparent 0),
+        radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.3) 10%, transparent 0),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.3) 8%, transparent 0),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.3) 6%, transparent 0),
+        radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.3) 4%, transparent 0);
+    z-index: -1;
+}
+
+/* Screen containers */
+.screen {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.screen.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Initial Screen */
+#tap-heart-btn {
+    background: none;
+    border: 2px solid #e91e63;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulse 1.5s infinite;
+}
+
+#tap-heart-btn .heart-icon {
+    font-size: 40px;
+    color: #e91e63;
+}
+
+#initial-screen p {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #555;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(233, 30, 99, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
+}
+
+/* Carousel Screen */
+.carousel-container {
+    width: 90%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.card {
+    background-color: white;
+    border: 3px solid #880e4f; /* Darker red-brown border */
+    border-radius: 25px;
+    padding: 30px 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-image-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 3px solid #ad1457;
+    background-color: #fde8f0; /* Light pink background for circle */
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card p {
+    font-size: 1.3em;
+    color: #333;
+    font-weight: 500;
+}
+
+#carousel-screen .instruction {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #777;
+}
+
+.dots-container {
+    margin-top: 15px;
+    display: flex;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #880e4f;
+}
+
+/* Heart Screen */
+.big-heart {
+    font-size: 150px;
+    color: #ff4081;
+    animation: heartBeat 1s infinite, glow 2s infinite alternate;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081; }
+    to { text-shadow: 0 0 20px #ff4081, 0 0 40px #ff4081, 0 0 60px #ff80ab; }
+}
+
+#heart-screen p {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #555;
+}
+
+/* Final Message Screen */
+#final-message-screen .card-image-container {
+    margin-bottom: 30px;
+}
+
+.message-content h2 {
+    font-family: 'Dancing Script', cursive; /* A more romantic font */
+    font-size: 2.2em;
+    color: #d81b60;
+    margin-bottom: 15px;
+}
+
+.message-content p {
+    font-size: 1.1em;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Typing effect cursor */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background-color: #333;
+    animation: blink 0.7s infinite;
+    margin-left: 3px;
+    position: relative;
+    bottom: -2px;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Floating hearts animation */
+.floating-heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 20px;
+    color: #ff80ab;
+    animation: floatUp 5s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    from {
+        bottom: -50px;
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        bottom: 100vh;
+        opacity: 0;
+        transform: translateX(var(--drift));
+    }
+}
+
+/* Footer Style */
+.main-footer {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #555;
+    font-size: 0.9em;
+    font-style: italic;
+    z-index: 100;
+}
+
+/* Small optional footer tweak (merged from inline style) */
+.main-footer {
+    font-size: 10px;
+    text-align: center;
+    color: #555;
+    padding: 10px;
+}
+
+</style>
+</head>
+<body>
+
+    <!-- Screen 1: Initial (Image Removed) -->
+    <div id="initial-screen" class="screen active">
+        <button id="tap-heart-btn">
+            <span class="heart-icon">❤️</span>
+        </button>
+        <p>Tap My Heart!</p>
+    </div>
+
+    <!-- Screen 2: Carousel -->
+    <div id="carousel-screen" class="screen">
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <!-- Slide 1 -->
+                <div class="slide">
+                    <div class="card">
+                        <div class="card-image-container">
+                             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGtsanc5N3k1ajIweG01OWZuZmFscWNtYWMycTY0a2kwYXp1YW9nciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DktkluUXVTY6OzDwZD/giphy.gif" alt="Panda Waving">
+                        </div>
+                        <p>Hellooo Cutiee 😚</p>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="slide">
+                     <div class="card">
+                        <div class="card-image-container">
+                             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3NvazlwN3JpNnB6cHN0Zm93OHE2aHg5Y3ZjbnV0dGx2eWY5NmtwZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gs7zgcVkuoNcPx6/giphy.gif" alt="Panda Thinking">
+                        </div>
+                        <p>I Have...</p>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="slide">
+                     <div class="card">
+                        <div class="card-image-container">
+                             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2VjN28wb2dtYjdvOXVudmJoanozMWcyd3d2dWFhbzF0NG02YXlqeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mRG2kPSJwKoiN2UE7U/giphy.gif" alt="Panda with Message">
+                        </div>
+                        <p>A Message 💌</p>
+                    </div>
+                </div>
+                <!-- Slide 4 -->
+                 <div class="slide">
+                     <div class="card">
+                        <div class="card-image-container">
+                             <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2VoaGEzbHozNHF3Nm5wNzlweDNkNHU4aXo2Nm1nNnM3cTl6aW1mYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/arU22BTYf4ekqHyhT6/giphy.gif" alt="Pandas Hugging">
+                        </div>
+                        <p>A Little Appreciation 🫶</p>
+                    </div>
+                </div>
+                 <!-- Slide 5 -->
+                 <div class="slide">
+                     <div class="card">
+                        <div class="card-image-container">
+                             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3dpeXh4dGJjMTVremlpdm04MnM0NHUza291cTlxZTY1cWJlYm5wdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yylKafjTgVoRO/giphy.gif" alt="For You">
+                        </div>
+                        <p>For Youuuuu! 💐</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="instruction">Click to Slide! 👉</p>
+        <div class="dots-container">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <!-- Screen 3: Big Heart -->
+    <div id="heart-screen" class="screen">
+        <div class="big-heart">❤️</div>
+        <p>Please Read 🫶</p>
+    </div>
+
+    <!-- Screen 4: Final Message -->
+    <div id="final-message-screen" class="screen">
+        <div class="card-image-container">
+            <img src="https://i.pinimg.com/originals/6f/86/86/6f86860de5a00620ccc8b0aa8696addf.gif" alt="Panda with heart">
+        </div>
+        <div class="message-content">
+            <h2 id="final-title"></h2>
+            <p id="line1"></p>
+            <p id="line2"></p>
+        </div>
+    </div>
+
+<footer class="main-footer">Created by Ashfaq Shaikh</footer>
+
+<!-- External JS -->
+<script>
+// script.js - moved from inline <script>
+
+/* DOM Elements */
+const screens = document.querySelectorAll('.screen');
+const tapHeartBtn = document.getElementById('tap-heart-btn');
+const carouselContainer = document.querySelector('.carousel-container');
+const carouselTrack = document.querySelector('.carousel-track');
+const dots = document.querySelectorAll('.dot');
+const slides = document.querySelectorAll('.slide');
+
+let currentSlide = 0;
+const totalSlides = slides.length;
+
+/* Function to switch screens */
+function showScreen(screenId) {
+    screens.forEach(screen => {
+        screen.classList.remove('active');
+    });
+    document.getElementById(screenId).classList.add('active');
+}
+
+/* Event Listener for the initial heart button */
+if (tapHeartBtn) {
+    tapHeartBtn.addEventListener('click', () => {
+        showScreen('carousel-screen');
+    });
+}
+
+/* Event Listener for the carousel */
+if (carouselContainer) {
+    carouselContainer.addEventListener('click', () => {
+        currentSlide++;
+        if (currentSlide >= totalSlides) {
+            // End of carousel, show heart screen
+            showScreen('heart-screen');
+            // After a delay, show the final message
+            setTimeout(() => {
+                showScreen('final-message-screen');
+                startTyping();
+            }, 2000); // 2 second delay
+        } else {
+            // Move to the next slide
+            const offset = -currentSlide * 100;
+            carouselTrack.style.transform = `translateX(${offset}%)`;
+            updateDots();
+        }
+    });
+}
+
+/* Function to update carousel dots */
+function updateDots() {
+    dots.forEach((dot, index) => {
+        if (index === currentSlide) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+/* Typing Effect Logic */
+const finalTitle = "I Love You More! 🌺💖";
+const line1Text = "Thank you for being here, you are the best. I hope you are always happy, and I will always be there for you. 🤗";
+const line2Text = "I'm very lucky to have you! 🫰💐";
+
+const titleEl = document.getElementById('final-title');
+const line1El = document.getElementById('line1');
+const line2El = document.getElementById('line2');
+
+function typeWriter(element, text, speed, callback) {
+    let i = 0;
+    element.innerHTML = '';
+    const cursor = '<span class="typing-cursor"></span>';
+    element.innerHTML = cursor;
+
+    const typingInterval = setInterval(() => {
+        if (i < text.length) {
+            element.innerHTML = text.substring(0, i + 1) + cursor;
+            i++;
+        } else {
+            clearInterval(typingInterval);
+            // Remove cursor from this line
+            element.innerHTML = text;
+            if (callback) {
+                callback();
+            }
+        }
+    }, speed);
+}
+
+function startTyping() {
+    typeWriter(titleEl, finalTitle, 100, () => {
+        typeWriter(line1El, line1Text, 70, () => {
+            typeWriter(line2El, line2Text, 70, () => {
+                // Typing finished, start floating hearts
+                setInterval(createFloatingHeart, 300);
+            });
+        });
+    });
+}
+
+/* Floating Hearts Logic */
+function createFloatingHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('floating-heart');
+    heart.innerHTML = ['❤️', '💖', '💕', '💓', '💗'][Math.floor(Math.random() * 5)];
+
+    // Random horizontal position and animation properties
+    heart.style.left = `${Math.random() * 100}vw`;
+    heart.style.animationDuration = `${Math.random() * 3 + 4}s`;
+    heart.style.fontSize = `${Math.random() * 10 + 15}px`;
+    heart.style.setProperty('--drift', `${Math.random() * 100 - 50}px`);
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 7000);
+}
+
+</script>
+</body>
+</html>
